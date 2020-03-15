@@ -14,7 +14,13 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "test-ng-workspace": [
+        "dist/test-ng-workspace/test-ng-workspace",
+        "dist/test-ng-workspace"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

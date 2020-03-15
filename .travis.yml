@@ -1,0 +1,38 @@
+sudo: required
+language: node_js
+node_js:
+  - '10'
+addons:
+  chrome: stable
+services:
+  - xvfb
+
+before_install:
+  - export CHROME_BIN=chromium-browser
+  - export DISPLAY=:99.0
+
+before_script:
+  - npm install -g makeshift && makeshift -s @systelab-tecnologies -r https://registry.npmjs.org
+  - npm install -g codecov
+  - npm install -g codacy-coverage
+  - npm install
+
+script:
+  - npm run build
+  - npm run test
+
+after_success:
+  - cat coverage/lcov.info | codecov
+  - cat ./coverage/lcov.info | codacy-coverage
+
+before_deploy:
+  - cp README.md dist/test-ng-workspace
+  - cd dist/test-ng-workspace
+
+deploy:
+  skip_cleanup: true
+  provider: npm
+  email: aserra@werfen.com
+  api_key: $NPM_TOKEN
+  on:
+    tags: true
